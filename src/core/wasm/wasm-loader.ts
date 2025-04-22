@@ -29,12 +29,18 @@ let wasmLoadingPromise: Promise<MatrixOpsWasmModule> | null = null;
 // --- Path Helper ---
 /** Calcula la ruta al archivo JS del módulo WASM dependiendo del entorno. */
 function getWasmModulePath(): string {
-  // Ya no necesitamos distinguir Node/Browser para la RUTA de importación dinámica.
-  // Vite manejará la ruta relativa correctamente en ambos entornos.
-  // La ruta es relativa DESDE ESTE ARCHIVO (wasm-loader.ts) al archivo JS generado.
-  // Asumiendo que wasm-loader.ts está en src/core/wasm/
-  // y los archivos generados están en src/core/wasm/generated/
-  return "./generated/matrix_ops.js"; // <--- Ruta relativa
+  try {
+    // Construye la URL al archivo JS generado RELATIVA a ESTE archivo (wasm-loader.ts).
+    // Asumiendo que:
+    // - wasm-loader.ts está en src/core/wasm/
+    // - matrix_ops.js está en src/core/wasm/generated/
+    const wasmJsUrl = new URL("./generated/matrix_ops.js", import.meta.url);
+    // console.log(`[WASM Loader] Resolved WASM JS URL: ${wasmJsUrl.href}`); // Log para depurar
+    return wasmJsUrl.href;
+  } catch (e) {
+    console.error("[WASM Loader] Error creating URL for WASM module:", e);
+    return "error-creating-wasm-url"; // Devolver algo inválido
+  }
 }
 
 // --- Carga del Módulo ---

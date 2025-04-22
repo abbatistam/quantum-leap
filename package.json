@@ -36,10 +36,11 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "pnpm run build:vite",
     "preview": "vite preview",
-    "build:wasm": "em++ core_cpp/src/matrix_ops.cpp -I core_cpp/vendor/eigen -o dist/wasm/matrix_ops.js -s WASM=1 -s MODULARIZE=1 -s EXPORT_ES6=1 -s EXPORTED_RUNTIME_METHODS=[HEAPF32] -s EXPORTED_FUNCTIONS=[_malloc,_free] -s ALLOW_MEMORY_GROWTH=1 --bind -O3 -msimd128",
+    "build:wasm": "em++ core_cpp/src/matrix_ops.cpp -I core_cpp/vendor/eigen -o dist/wasm/matrix_ops.js -s WASM=1 -s MODULARIZE=1 -s EXPORT_ES6=1 -s EXPORTED_RUNTIME_METHODS=[HEAPF32] -s EXPORTED_FUNCTIONS=[_malloc,_free] -s ALLOW_MEMORY_GROWTH=1 --bind -O3 -msimd128 && copyfiles dist/wasm/* public/wasm -f",
     "build:ts": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "build:vite": "vite build",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
     "lint": "eslint src --ext .ts --debug",

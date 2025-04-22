@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quantum Leap - Library Comparison</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 15px;
+        background-color: #f0f0f0;
+      }
+      h1,
+      h2 {
+        text-align: center;
+        color: #333;
+      }
+      #controls {
+        margin: 15px 0;
+        padding: 10px;
+        background-color: #eee;
+        border-radius: 5px;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      #resultsTable {
+        margin-top: 20px;
+        border-collapse: collapse;
+        width: 100%;
+        max-width: 800px;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      #resultsTable th,
+      #resultsTable td {
+        border: 1px solid #ddd;
+        padding: 8px 12px;
+        text-align: right;
+      }
+      #resultsTable th {
+        background-color: #e9ecef;
+        font-weight: bold;
+        text-align: center;
+      }
+      #resultsTable td:first-child {
+        text-align: left;
+        font-weight: bold;
+      }
+      #status {
+        margin-top: 10px;
+        font-weight: bold;
+        text-align: center;
+        min-height: 1.2em;
+      }
+      .loading {
+        color: orange;
+      }
+      .error {
+        color: red;
+      }
+      .running {
+        color: blue;
+      }
+      button {
+        padding: 8px 15px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+      }
+      button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+      button:hover:not(:disabled) {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Quantum Leap vs PixiJS vs Three.js</h1>
+    <h2>Batch Transformation Calculation Benchmark</h2>
+
+    <div id="controls">
+      <label for="objectCount">Object Count:</label>
+      <select id="objectCount">
+        <option value="1000">1,000</option>
+        <option value="10000" selected>10,000</option>
+        <option value="50000">50,000</option>
+        <option value="100000">100,000</option>
+        <option value="250000">250,000</option>
+        <option value="500000">500,000</option>
+      </select>
+      <button id="runButton">Run Benchmark</button>
+    </div>
+
+    <div id="status" class="loading">Initializing WASM...</div>
+
+    <table id="resultsTable">
+      <thead>
+        <tr>
+          <th>Library</th>
+          <th>Avg Time per Frame (ms)</th>
+          <th>Relative Speed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Quantum Leap (WASM)</td>
+          <td id="wasmTime">--</td>
+          <td id="wasmSpeed">--</td>
+        </tr>
+        <tr>
+          <td>PixiJS (JS Loop)</td>
+          <td id="pixiTime">--</td>
+          <td id="pixiSpeed">--</td>
+        </tr>
+        <tr>
+          <td>Three.js (JS Loop)</td>
+          <td id="threeTime">--</td>
+          <td id="threeSpeed">--</td>
+        </tr>
+        <!--<tr><td>JS Baseline (Raw Loop)</td><td id="jsTime">--</td><td id="jsSpeed">--</td></tr>-->
+      </tbody>
+    </table>
+
+    <script
+      type="module"
+      src="/examples/compare-libs/demo-compare-libs.ts"
+    ></script>
+  </body>
+</html>

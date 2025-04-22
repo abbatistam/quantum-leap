@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quantum Leap - Demos</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        line-height: 1.6;
+        padding: 20px;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+      .container {
+        max-width: 800px;
+        margin: 30px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1,
+      h2 {
+        text-align: center;
+        color: #2c3e50;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 15px;
+        background: #e9ecef;
+        padding: 15px;
+        border-radius: 5px;
+        transition: transform 0.2s ease;
+      }
+      li:hover {
+        transform: scale(1.02);
+      }
+      a {
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+        font-size: 1.1em;
+      }
+      a:hover {
+        text-decoration: underline;
+        color: #0056b3;
+      }
+      p {
+        color: #555;
+        font-size: 0.95em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Project "Quantum Leap" Demos</h1>
+      <p style="text-align: center">
+        Explorando el rendimiento de transformaciones 2D con WebAssembly, SIMD y
+        gestión de memoria optimizada.
+      </p>
+
+      <h2>Disponibles:</h2>
+      <ul>
+        <li>
+          <a href="/examples/particles/">Particle Transformation Benchmark</a>
+          <p>
+            Compara el rendimiento del cálculo de transformaciones (JS vs WASM)
+            aplicado a un gran número de partículas. Muestra tiempos de cálculo
+            promedio y speedup.
+          </p>
+        </li>
+        <li>
+          <a href="/examples/mesh/">Interactive Mesh Transformation</a>
+          <p>
+            Manipula interactivamente (mover, rotar, escalar) mallas 2D de
+            diferentes tamaños. Compara la fluidez y responsividad entre JS y
+            WASM.
+          </p>
+        </li>
+        <a href="/examples/compare-libs/">Library Comparison Benchmark</a>
+        <p>
+          Compara el rendimiento del **cálculo** de transformaciones en lote de
+          Quantum Leap (WASM) contra bucles de actualización equivalentes en
+          PixiJS y Three.js para un gran número de objetos.
+        </p>
+        <!-- Añadir más demos aquí en el futuro -->
+      </ul>
+    </div>
+  </body>
+</html>

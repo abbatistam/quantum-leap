@@ -1,0 +1,77 @@
+{
+  "name": "@abbatistam/quantum-leap",
+  "version": "0.1.0",
+  "description": "High-performance 2D transformation library core with WASM/GPU potential.",
+  "author": "Antonio Bryan Batista antoniobbatistam@gmail.com",
+  "license": "MIT",
+  "keywords": [
+    "2d",
+    "transformation",
+    "matrix",
+    "affine",
+    "perspective",
+    "wasm",
+    "webgpu",
+    "performance"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abbatistam/quantum-leap.git"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "build:wasm": "em++ core_cpp/src/matrix_ops.cpp -I core_cpp/vendor/eigen -o dist/wasm/matrix_ops.js -s WASM=1 -s MODULARIZE=1 -s EXPORT_ES6=1 -s EXPORTED_RUNTIME_METHODS=[HEAPF32] -s EXPORTED_FUNCTIONS=[_malloc,_free] -s ALLOW_MEMORY_GROWTH=1 --bind -O3 -msimd128",
+    "build:ts": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .ts --debug",
+    "format": "prettier --write .",
+    "bench:determinant": "tsx benchmarks/determinant.bench.ts",
+    "bench:homography": "tsx benchmarks/homography.bench.ts",
+    "bench:multiply": "tsx benchmarks/multiply.bench.ts",
+    "bench:inverse": "tsx benchmarks/inverse.bench.ts",
+    "bench:transformPoints": "tsx benchmarks/transformPoints.bench.ts",
+    "bench:all": "pnpm run bench:determinant && pnpm run bench:multiply && pnpm run bench:inverse && pnpm run bench:homography && pnpm run bench:transformPoints"
+  },
+  "packageManager": "pnpm@10.8.0",
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "@types/emscripten": "^1.40.0",
+    "@types/node": "^22.14.0",
+    "@vitest/coverage-v8": "^3.1.1",
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1",
+    "vite": "^6.2.5",
+    "vitest": "^3.1.1"
+  },
+  "dependencies": {
+    "@types/three": "^0.175.0",
+    "pixi.js": "^8.9.1",
+    "three": "^0.175.0"
+  }
+}

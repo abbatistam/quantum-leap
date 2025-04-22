@@ -1,0 +1,18 @@
+# Dependencias y Build
+node_modules/
+dist/
+coverage/
+
+# Código C++ y Vendor
+core_cpp/
+
+# Archivos de Configuración JS/CJS en la raíz
+*.cjs
+*.js
+vitest.config.ts
+tsup.config.ts
+
+# Otros
+.vscode/
+.idea/
+*.log

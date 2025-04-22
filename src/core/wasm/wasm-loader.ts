@@ -56,8 +56,11 @@ export async function loadWasmModule(): Promise<MatrixOpsWasmModule> {
 
   wasmLoadingPromise = new Promise(async (resolve, reject) => {
     try {
-      const modulePath = getWasmModulePath(); // Obtiene la ruta relativa
-      console.log(`[WASM Loader] Attempting to import: ${modulePath}`); // Log útil
+      const modulePath = getWasmModulePath();
+      if (!modulePath || modulePath.startsWith("error-")) {
+        throw new Error(`Invalid WASM module path generated: ${modulePath}`);
+      }
+      console.log(`[WASM Loader] Attempting to import: ${modulePath}`);
 
       // Vite resolverá esta ruta relativa y cargará el módulo JS,
       // el cual a su vez cargará el .wasm asociado.

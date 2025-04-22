@@ -2,6 +2,7 @@
 import type { Matrix3x3 } from "../../types/core.types";
 //import path from "node:path";
 //import { fileURLToPath, pathToFileURL } from "node:url";
+import wasmBinaryUrl from "./generated/matrix_ops.wasm?url";
 
 // --- Interfaz del Módulo WASM (Exportada) ---
 export interface MatrixOpsWasmModule extends EmscriptenModule {
@@ -56,22 +57,28 @@ export async function loadWasmModule(): Promise<MatrixOpsWasmModule> {
 
   wasmLoadingPromise = new Promise(async (resolve, reject) => {
     try {
-      const modulePath = getWasmModulePath();
-      if (!modulePath || modulePath.startsWith("error-")) {
-        throw new Error(`Invalid WASM module path generated: ${modulePath}`);
-      }
-      console.log(`[WASM Loader] Attempting to import: ${modulePath}`);
+      const modulePath = getWasmModulePath(); // Obtiene URL del .js
+      console.log(`[WASM Loader] Attempting to import JS: ${modulePath}`);
+      console.log(
+        `[WASM Loader] WASM binary URL resolved by Vite: ${wasmBinaryUrl}`
+      ); // Log para ver la URL
 
-      // Vite resolverá esta ruta relativa y cargará el módulo JS,
-      // el cual a su vez cargará el .wasm asociado.
-      // NO necesitamos @vite-ignore aquí.
-      const wasmModuleExports = await import(modulePath); // <--- Importación directa con ruta relativa
-
+      const wasmModuleExports = await import(/* @vite-ignore */ modulePath);
       const createModule = wasmModuleExports.default;
       if (typeof createModule !== "function") {
         /*...*/
       }
-      const instance: MatrixOpsWasmModule = await createModule({});
+
+      const moduleConfig = {
+        locateFile: (path: string, prefix: string) => {
+          if (path.endsWith(".wasm")) {
+            return wasmBinaryUrl; // Devuelve la URL importada por Vite
+          }
+          return prefix + path; // Comportamiento por defecto para otros archivos
+        },
+      };
+      const instance: MatrixOpsWasmModule = await createModule(moduleConfig); // <---
+      wasmModuleInstance = instance;
       if (!instance.HEAPF32) {
         /*...*/
       }
@@ -81,7 +88,6 @@ export async function loadWasmModule(): Promise<MatrixOpsWasmModule> {
       if (typeof instance._free !== "function") {
         /*...*/
       }
-      wasmModuleInstance = instance;
       resolve(instance);
     } catch (error) {
       /*...*/

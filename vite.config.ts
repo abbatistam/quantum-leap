@@ -1,6 +1,6 @@
 // vite.config.ts
 import { defineConfig } from "vite";
-import path from "node:path"; // Para resolver rutas si es necesario
+import path, { resolve } from "node:path"; // Para resolver rutas si es necesario
 
 export default defineConfig(({ command, mode }) => {
   // Opciones comunes para dev y build
@@ -31,8 +31,17 @@ export default defineConfig(({ command, mode }) => {
     },
     // Opciones de Build (cuando ejecutes `vite build`)
     build: {
-      // Configura cómo se genera el build de producción
-      // podrías configurarlo para generar la librería aquí si quisieras
+      outDir: "dist",
+      rollupOptions: {
+        input: {
+          // Cada entrada es un par: nombre: ruta/al/html
+          main: resolve(__dirname, "index.html"), // La página principal
+          particles: resolve(__dirname, "examples/particles/index.html"), // Demo partículas
+          mesh: resolve(__dirname, "examples/mesh/index.html"), // Demo malla
+          compareLibs: resolve(__dirname, "examples/compare-libs/index.html"), // Demo comparación
+          // Añade más entradas si tienes más páginas/demos HTML
+        },
+      },
     },
     // --- WASM ---
     // Vite tiene soporte experimental integrado para WASM, pero a veces
